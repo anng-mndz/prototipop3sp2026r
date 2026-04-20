@@ -141,6 +141,16 @@ CREATE TABLE IF NOT EXISTS `asignacionperfilusuario` (
   FOREIGN KEY (Percodigo) references perfiles(Percodigo)  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+CREATE TABLE IF NOT EXISTS ` Peliculas ` (
+    idPelicula INT PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(45),
+    clasificacion VARCHAR(45),
+    genero VARCHAR(45),
+    subtitulado VARCHAR(45),
+    idioma VARCHAR (45),
+    precio DOUBLE
+    )
+
 -- --------------------------------------------------------
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
