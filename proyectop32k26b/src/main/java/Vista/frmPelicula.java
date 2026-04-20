@@ -24,9 +24,10 @@ public class frmPelicula extends javax.swing.JFrame {
     /**
      * Carga todas las películas en la tabla
      */
-    public void cargarTabla() {
+       public void cargarTabla() {
         try {
             List<clsPelicula> lista = dao.listar();
+            listaPeliculas = lista; // Sincroniza la lista en memoria
             DefaultTableModel modelo = (DefaultTableModel) tblPeliculas.getModel();
             modelo.setRowCount(0);
  
@@ -82,6 +83,15 @@ public class frmPelicula extends javax.swing.JFrame {
     }
 }
 
+         public void limpiarCampos() {
+        txtID.setText("");
+        txtNombre.setText("");
+        txtClasificacion.setText("");
+        txtGenero.setText("");
+        txtSubtitulado.setText("");
+        txtIdioma.setText("");
+        txtPrecio.setText("");
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -111,6 +121,7 @@ public class frmPelicula extends javax.swing.JFrame {
         txtID = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPeliculas = new javax.swing.JTable();
+        btnBuscar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -168,6 +179,13 @@ public class frmPelicula extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tblPeliculas);
 
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -175,12 +193,8 @@ public class frmPelicula extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(118, 118, 118)
-                        .addComponent(btnInsertar)
-                        .addGap(67, 67, 67)
-                        .addComponent(btnActualizar)
-                        .addGap(47, 47, 47)
-                        .addComponent(btnEliminar))
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 548, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(22, 22, 22)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -199,11 +213,18 @@ public class frmPelicula extends javax.swing.JFrame {
                             .addComponent(txtSubtitulado)
                             .addComponent(txtIdioma)
                             .addComponent(txtPrecio)
-                            .addComponent(txtID, javax.swing.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 548, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtID, javax.swing.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE))))
                 .addContainerGap(16, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(52, 52, 52)
+                .addComponent(btnInsertar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnBuscar)
+                .addGap(37, 37, 37)
+                .addComponent(btnActualizar)
+                .addGap(70, 70, 70)
+                .addComponent(btnEliminar)
+                .addGap(84, 84, 84))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -240,7 +261,8 @@ public class frmPelicula extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnInsertar)
                     .addComponent(btnActualizar)
-                    .addComponent(btnEliminar))
+                    .addComponent(btnEliminar)
+                    .addComponent(btnBuscar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -254,39 +276,75 @@ public class frmPelicula extends javax.swing.JFrame {
 
     private void btnInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertarActionPerformed
     try {
-        clsPelicula p = obtenerDatos();
-        dao.insert(p);
-        cargarTabla();
-        JOptionPane.showMessageDialog(this, "Película insertada correctamente");
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error al insertar: " + e.getMessage());
-    }
-    cargarTablaMemoria();
+            clsPelicula p = obtenerDatos();
+            dao.insert(p);
+            cargarTabla();
+            JOptionPane.showMessageDialog(this, "Película insertada correctamente");
+            limpiarCampos();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al insertar: " + e.getMessage());
+        }
     }//GEN-LAST:event_btnInsertarActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-     try {
-        clsPelicula p = obtenerDatos();
-        dao.update(p);
-        cargarTabla();
-        JOptionPane.showMessageDialog(this, "Película actualizada correctamente");
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error al actualizar: " + e.getMessage());
-    }
-     cargarTablaMemoria();
+      try {
+            clsPelicula p = obtenerDatos();
+            dao.update(p);
+            cargarTabla();
+            JOptionPane.showMessageDialog(this, "Película actualizada correctamente");
+            limpiarCampos();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al actualizar: " + e.getMessage());
+        }
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
     try {
-        int id = Integer.parseInt(txtID.getText());
-        dao.delete(id);
-        cargarTabla();
-        JOptionPane.showMessageDialog(this, "Película eliminada correctamente");
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error al eliminar: " + e.getMessage());
-    }
-    cargarTablaMemoria();
+            int id = Integer.parseInt(txtID.getText());
+            dao.delete(id);
+            cargarTabla();
+            JOptionPane.showMessageDialog(this, "Película eliminada correctamente");
+            limpiarCampos();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al eliminar: " + e.getMessage());
+        }
     }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        try {
+            if (txtID.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Por favor ingrese un ID para buscar");
+                return;
+            }
+            
+            int id = Integer.parseInt(txtID.getText());
+            List<clsPelicula> lista = dao.listar();
+            
+            clsPelicula peliculaEncontrada = null;
+            for (clsPelicula p : lista) {
+                if (p.getIdPelicula() == id) {
+                    peliculaEncontrada = p;
+                    break;
+                }
+            }
+            
+            if (peliculaEncontrada != null) {
+                txtID.setText(String.valueOf(peliculaEncontrada.getIdPelicula()));
+                txtNombre.setText(peliculaEncontrada.getNombre());
+                txtClasificacion.setText(peliculaEncontrada.getClasificacion());
+                txtGenero.setText(peliculaEncontrada.getGenero());
+                txtSubtitulado.setText(peliculaEncontrada.getSubtitulado());
+                txtIdioma.setText(peliculaEncontrada.getIdioma());
+                txtPrecio.setText(String.valueOf(peliculaEncontrada.getPrecio()));
+            } else {
+                JOptionPane.showMessageDialog(this, "Película no encontrada");
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El ID debe ser un número");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al buscar: " + e.getMessage());
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -326,6 +384,7 @@ public class frmPelicula extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
+    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnInsertar;
     private javax.swing.JLabel jLabel1;
