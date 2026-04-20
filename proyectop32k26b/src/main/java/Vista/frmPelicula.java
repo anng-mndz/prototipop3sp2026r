@@ -9,16 +9,25 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
  
-public class frmPelicula extends javax.swing.JFrame {
+public class frmPelicula extends javax.swing.JInternalFrame {
+ 
  
     private PeliculaDAO dao = new PeliculaDAO();
     private java.util.List<clsPelicula> listaPeliculas = new java.util.ArrayList<>();
+    int idUsuario = Controlador.clsUsuarioConectado.getUsuId();
+    private static final int Aplcodigo = 10006;
     /**
      * Creates new form frmExamen
      */
     public frmPelicula() {
-        initComponents();
-        cargarTablaMemoria();
+       initComponents();
+    cargarTablaMemoria();
+    setClosable(true);
+    setIconifiable(true);
+    setMaximizable(true);
+    setResizable(true);
+    setTitle("Mantenimiento Películas");
+    setVisible(true);
     }
  
     /**
@@ -81,6 +90,16 @@ public class frmPelicula extends javax.swing.JFrame {
         };
         modelo.addRow(fila);
     }
+    
+}
+        public void limpiarCampos() {
+    txtID.setText("");
+    txtNombre.setText("");
+    txtClasificacion.setText("");
+    txtGenero.setText("");
+    txtSubtitulado.setText("");
+    txtIdioma.setText("");
+    txtPrecio.setText(""); // Camila
 }
 
          public void limpiarCampos() {
