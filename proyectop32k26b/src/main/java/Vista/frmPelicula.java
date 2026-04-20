@@ -9,16 +9,25 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
  
-public class frmPelicula extends javax.swing.JFrame {
+public class frmPelicula extends javax.swing.JInternalFrame {
+ 
  
     private PeliculaDAO dao = new PeliculaDAO();
     private java.util.List<clsPelicula> listaPeliculas = new java.util.ArrayList<>();
+    int idUsuario = Controlador.clsUsuarioConectado.getUsuId();
+    private static final int Aplcodigo = 10006;
     /**
      * Creates new form frmExamen
      */
     public frmPelicula() {
-        initComponents();
-        cargarTablaMemoria();
+       initComponents();
+    cargarTablaMemoria();
+    setClosable(true);
+    setIconifiable(true);
+    setMaximizable(true);
+    setResizable(true);
+    setTitle("Mantenimiento Películas");
+    setVisible(true);
     }
  
     /**
@@ -80,6 +89,16 @@ public class frmPelicula extends javax.swing.JFrame {
         };
         modelo.addRow(fila);
     }
+    
+}
+        public void limpiarCampos() {
+    txtID.setText("");
+    txtNombre.setText("");
+    txtClasificacion.setText("");
+    txtGenero.setText("");
+    txtSubtitulado.setText("");
+    txtIdioma.setText("");
+    txtPrecio.setText(""); // Camila
 }
 
 
@@ -253,39 +272,40 @@ public class frmPelicula extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNombreActionPerformed
 
     private void btnInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertarActionPerformed
-    try {
-        clsPelicula p = obtenerDatos();
-        dao.insert(p);
-        cargarTabla();
-        JOptionPane.showMessageDialog(this, "Película insertada correctamente");
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error al insertar: " + e.getMessage());
-    }
-    cargarTablaMemoria();
+   Insertar: try {
+            clsPelicula p = obtenerDatos();
+            dao.insert(p);
+            cargarTabla();
+            JOptionPane.showMessageDialog(this, "Película insertada correctamente");
+            limpiarCampos();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al insertar: " + e.getMessage());
+        }
     }//GEN-LAST:event_btnInsertarActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-     try {
-        clsPelicula p = obtenerDatos();
-        dao.update(p);
-        cargarTabla();
-        JOptionPane.showMessageDialog(this, "Película actualizada correctamente");
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error al actualizar: " + e.getMessage());
-    }
-     cargarTablaMemoria();
+    Update: try {
+            clsPelicula p = obtenerDatos();
+            dao.update(p);
+            cargarTabla();
+            JOptionPane.showMessageDialog(this, "Película actualizada correctamente");
+            limpiarCampos();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al actualizar: " + e.getMessage());
+        }
+
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-    try {
-        int id = Integer.parseInt(txtID.getText());
-        dao.delete(id);
-        cargarTabla();
-        JOptionPane.showMessageDialog(this, "Película eliminada correctamente");
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error al eliminar: " + e.getMessage());
-    }
-    cargarTablaMemoria();
+    Delete: try {
+            int id = Integer.parseInt(txtID.getText());
+            dao.delete(id);
+            cargarTabla();
+            JOptionPane.showMessageDialog(this, "Película eliminada correctamente");
+            limpiarCampos();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al eliminar: " + e.getMessage());
+        }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     /**
