@@ -115,6 +115,7 @@ Vista\frmProcesoPerfilUsuario$5.class
 Vista\MdiSeguridad$15.class
 Modelo\AsignacionAplicacionUsuarioDAO.class
 Vista\frmProcesoAplicacionPerfil$7.class
+Vista\frmPelicula$6.class
 Vista\frmLogin$3.class
 Controlador\clsBitacora.class
 Vista\frmMantenimientoUsuario.class
